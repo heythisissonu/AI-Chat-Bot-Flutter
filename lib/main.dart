@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Chat Bot App',
+      title: 'Pavanputra',
       theme:
           context.watch<SettingsProvider>().isDarkMode ? darkTheme : lightTheme,
       debugShowCheckedModeBanner: false,

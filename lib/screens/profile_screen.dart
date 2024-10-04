@@ -21,7 +21,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File? file;
   String userImage = '';
-  String userName = 'Aayush';
+  String userName = 'Sonu Jatav';
   final ImagePicker _picker = ImagePicker();
 
   // pick an image

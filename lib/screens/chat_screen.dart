@@ -4,7 +4,11 @@ import 'package:chatbotapp/providers/chat_provider.dart';
 import 'package:chatbotapp/utility/animated_dialog.dart';
 import 'package:chatbotapp/widgets/bottom_chat_field.dart';
 import 'package:chatbotapp/widgets/chat_messages.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:chatbotapp/hive/boxes.dart';
+import 'package:chatbotapp/hive/chat_history.dart';
+import 'package:chatbotapp/widgets/chat_history_widget.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -84,6 +88,49 @@ class _ChatScreenState extends State<ChatScreen> {
                 )
             ],
           ),
+
+          // Updated Drawer with Chat History items using ChatHistoryWidget
+          drawer: Drawer(
+            child: Column(
+              children: [
+                const DrawerHeader(
+                  decoration: BoxDecoration(
+                    //color: Colors.blue,
+                  ),
+                  child: Text(
+                    'Recent Chats',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ValueListenableBuilder<Box<ChatHistory>>(
+                    valueListenable: Boxes.getChatHistory().listenable(),
+                    builder: (context, box, _) {
+                      final chatHistory =
+                          box.values.toList().cast<ChatHistory>().reversed.toList();
+
+                      return chatHistory.isEmpty
+                          ? const Center(
+                              child: Text('No chat history available'),
+                            )
+                          : ListView.builder(
+                              itemCount: chatHistory.length,
+                              itemBuilder: (context, index) {
+                                final chat = chatHistory[index];
+                                // Return ChatHistoryWidget for each item
+                                return ChatHistoryWidget(chat: chat);
+                              },
+                            );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
